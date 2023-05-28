@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "pg": "^8.11.0",
+    "sequelize": "^6.31.1"
+  },
+  "name": "fullstack-part13-blog",
+  "description": "full stack part 13",
+  "version": "1.0.0",
+  "main": "cli.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simonGreenwood/fullstack-part13-blog.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/simonGreenwood/fullstack-part13-blog/issues"
+  },
+  "homepage": "https://github.com/simonGreenwood/fullstack-part13-blog#readme"
+}
