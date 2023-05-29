@@ -1,5 +1,4 @@
 const router = require("express").Router()
-
 const { Blog } = require("../models")
 
 router.get("/", async (req, res) => {
@@ -13,21 +12,19 @@ router.post("/", async (req, res) => {
   res.json(newBlog)
 })
 
-const blogFinder = async (req, res, next) => {
+const blogFinder = async (req, res) => {
   req.blog = await Blog.findByPk(req.params.id)
   next()
 }
 
 router.delete("/:id", blogFinder, async (req, res) => {
-  if (req.blog === null) {
-    return res.status(400).json({ error: "Invalid ID" })
-  }
+  req.blog = await Blog.findByPk(req.params.id)
   await req.blog.destroy()
   res.status(204).end()
 })
 
-router.put("/:id", blogFinder, async (req, res) => {
-  if (req.blog === null) return res.status(400).json({ error: "Invalid ID" })
+router.put("/:id", async (req, res, next) => {
+  req.blog = await Blog.findByPk(req.params.id)
   req.blog.likes = req.body.likes
   req.blog.save()
   res.json({ likes: req.blog.likes })
