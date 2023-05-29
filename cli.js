@@ -11,6 +11,9 @@ const errorHandler = (error, req, res, next) => {
   if (error.name === "TypeError") {
     return res.status(400).send({ error: "Invalid ID" })
   }
+  if (error.name === "SequelizeValidationError") {
+    return res.status(400).send({ error: "Missing some fields" })
+  }
   next(error)
 }
 app.use("/api/blogs", blogRouter)

@@ -12,19 +12,20 @@ router.post("/", async (req, res) => {
   res.json(newBlog)
 })
 
-const blogFinder = async (req, res) => {
+const blogFinder = async (req, res, next) => {
   req.blog = await Blog.findByPk(req.params.id)
   next()
 }
 
 router.delete("/:id", blogFinder, async (req, res) => {
-  req.blog = await Blog.findByPk(req.params.id)
   await req.blog.destroy()
   res.status(204).end()
 })
 
-router.put("/:id", async (req, res, next) => {
-  req.blog = await Blog.findByPk(req.params.id)
+router.put("/:id", blogFinder, async (req, res) => {
+  if (req.body.likes === undefined) {
+    return res.status(400).send({ error: "Amount of likes missing" })
+  }
   req.blog.likes = req.body.likes
   req.blog.save()
   res.json({ likes: req.blog.likes })
