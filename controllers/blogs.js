@@ -26,4 +26,10 @@ router.delete("/:id", blogFinder, async (req, res) => {
   res.status(204).end()
 })
 
+router.put("/:id", blogFinder, async (req, res) => {
+  if (req.blog === null) return res.status(400).json({ error: "Invalid ID" })
+  req.blog.likes = req.body.likes
+  req.blog.save()
+  res.json({ likes: req.blog.likes })
+})
 module.exports = router
