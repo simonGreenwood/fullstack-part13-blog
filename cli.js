@@ -8,16 +8,24 @@ const blogRouter = require("./controllers/blogs")
 const userRouter = require("./controllers/users")
 app.use(express.json())
 const errorHandler = (error, req, res, next) => {
-  console.error(error)
+  console.log(error)
+  console.error(error.message)
   if (error.name === "TypeError") {
-    return res.status(400).send({ error: "Invalid ID" })
+    return res
+      .status(400)
+      .send({ error: error.errors.map((error) => error.message) })
   }
   if (error.name === "SequelizeValidationError") {
-    return res.status(400).send({ error: "Missing some fields" })
+    return res
+      .status(400)
+      .send({ error: error.errors.map((error) => error.message) })
   }
   if (error.name === "SequelizeUniqueConstraintError") {
-    return res.status(400).send({ error: "Username already exists" })
+    return res
+      .status(400)
+      .send({ error: error.errors.map((error) => error.message) })
   }
+  next()
 }
 app.use("/api/blogs", blogRouter)
 app.use("/api/users", userRouter)
