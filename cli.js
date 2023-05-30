@@ -5,9 +5,10 @@ const { PORT } = require("./utils/config")
 const { connectToDatabase } = require("./utils/db")
 
 const blogRouter = require("./controllers/blogs")
-
+const userRouter = require("./controllers/users")
 app.use(express.json())
 const errorHandler = (error, req, res, next) => {
+  console.log(error.message)
   if (error.name === "TypeError") {
     return res.status(400).send({ error: "Invalid ID" })
   }
@@ -17,6 +18,7 @@ const errorHandler = (error, req, res, next) => {
   next(error)
 }
 app.use("/api/blogs", blogRouter)
+app.use("/api/users", userRouter)
 app.use(errorHandler)
 
 const start = async () => {

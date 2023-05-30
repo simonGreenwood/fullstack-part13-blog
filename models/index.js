@@ -7,4 +7,4 @@ Blog.belongsTo(User)
 Blog.sync()
 User.sync()
 
-module.exports = { Blog }
+module.exports = { Blog, User }
