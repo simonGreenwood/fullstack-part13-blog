@@ -18,9 +18,9 @@ User.init(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    password: {
+    passwordHash: {
       type: DataTypes.TEXT,
-      min: 3,
+      allowNull: false,
     },
   },
   {
