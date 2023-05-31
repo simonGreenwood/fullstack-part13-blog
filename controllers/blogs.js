@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken")
 const { Blog, User } = require("../models")
 const { SECRET } = require("../utils/config")
 const { Op } = require("sequelize")
+const { sequelize } = require("../utils/db")
 
 const tokenExtractor = async (req, res, next) => {
   const authorization = req.headers.authorization
@@ -34,6 +35,7 @@ router.get("/", async (req, res) => {
     attributes: { exclude: ["userId"] },
     include: { model: User, attributes: ["username", "name"] },
     where,
+    order: [["likes", "DESC"]],
   })
   res.json(blogs)
 })
