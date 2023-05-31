@@ -4,13 +4,12 @@ const { Blog, User } = require("../models")
 const { SECRET } = require("../utils/config")
 const { Op } = require("sequelize")
 
-const tokenExtractor = (req, res, next) => {
+const tokenExtractor = async (req, res, next) => {
   const authorization = req.headers.authorization
-  console.log(req.get("authorization"), req.params.authorization)
   if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
     try {
       const decodedToken = jwt.verify(authorization.substring(7), SECRET)
-      req.user = User.findByPk(decodedToken.id)
+      req.user = await User.findByPk(decodedToken.id)
     } catch {
       return res.status(401).json({ error: "token invalid" })
     }
@@ -24,7 +23,7 @@ router.get("/", async (req, res) => {
   const where = {}
   if (req.query.search) {
     where.title = {
-      [Op.substring]: req.query.search,
+      [Op.iLike]: `%${req.query.search}%`,
     }
   }
   const blogs = await Blog.findAll({
@@ -51,7 +50,6 @@ const blogFinder = async (req, res, next) => {
 }
 
 router.delete("/:id", blogFinder, tokenExtractor, async (req, res) => {
-  console.log(req.headers.authorization)
   if (req.blog.userId !== req.user.id) {
     return res.status(401).json({ error: "Unauthorized" })
   }
