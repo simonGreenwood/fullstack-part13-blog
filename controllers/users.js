@@ -15,13 +15,23 @@ const passwordHasher = async (req, res, next) => {
 
 router.post("/", passwordHasher, async (req, res) => {
   const newUser = await User.create(req.body)
+  if (!newUser) {
+  }
   res.json(newUser)
 })
 
-router.put("/:username", async (req, res) => {
+const userExtractor = async (req, res, next) => {
   const user = await User.findOne({ where: { username: req.params.username } })
-  user.username = req.body.username
-  await user.save()
-  res.json(user)
+  if (!user) {
+    return res.status(404).json({ error: "Invalid user ID" })
+  }
+  req.user = user
+  next()
+}
+
+router.put("/:username", userExtractor, async (req, res) => {
+  req.user.username = req.body.username
+  await req.user.save()
+  res.json(req.user)
 })
 module.exports = router
