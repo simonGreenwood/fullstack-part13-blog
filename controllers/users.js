@@ -23,7 +23,7 @@ router.post("/", passwordHasher, async (req, res) => {
 const userExtractor = async (req, res, next) => {
   const user = await User.findOne({ where: { username: req.params.username } })
   if (!user) {
-    return res.status(404).json({ error: "Invalid user ID" })
+    return res.status(404).json({ error: "Invalid username" })
   }
   req.user = user
   next()

@@ -9,6 +9,7 @@ const userRouter = require("./controllers/users")
 const loginRouter = require("./controllers/login")
 app.use(express.json())
 const errorHandler = (error, req, res, next) => {
+  console.error(error)
   if (error.name === "SequelizeValidationError") {
     return res
       .status(400)
@@ -19,7 +20,12 @@ const errorHandler = (error, req, res, next) => {
       .status(400)
       .send({ error: error.errors.map((error) => error.message) })
   }
-  next()
+
+  if (error.name === "JsonWebTokenError") {
+    return res.status(401).json({ error: "Invalid token" })
+  }
+
+  next(error)
 }
 app.use("/api/blogs", blogRouter)
 app.use("/api/users", userRouter)
