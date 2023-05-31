@@ -14,8 +14,10 @@ const tokenParser = async (req, res, next) => {
 }
 
 router.get("/", async (req, res) => {
-  const blogs = await Blog.findAll()
-  console.log(blogs.map((blog) => blog.toJSON()))
+  const blogs = await Blog.findAll({
+    attributes: { exclude: ["userId"] },
+    include: { model: User, attributes: ["username", "name"] },
+  })
   res.json(blogs)
 })
 
