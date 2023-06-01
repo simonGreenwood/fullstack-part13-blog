@@ -6,7 +6,8 @@
     "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^9.0.0",
     "pg": "^8.11.0",
-    "sequelize": "^6.31.1"
+    "sequelize": "^6.31.1",
+    "umzug": "^3.2.1"
   },
   "name": "fullstack-part13-blog",
   "description": "full stack part 13",
@@ -15,6 +16,7 @@
   "scripts": {
     "start": "node cli.js",
     "dev": "nodemon cli.js",
+    "migration:down": "node utils/rollback.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
