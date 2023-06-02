@@ -21,7 +21,7 @@ module.exports = {
       allowNull: false,
       defaultValue: new Date(),
     })
-    await queryInterface.addColumn("users", "updatedAt", {
+    await queryInterface.addColumn("users", "updated_at", {
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: new Date(),

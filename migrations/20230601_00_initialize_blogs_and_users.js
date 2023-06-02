@@ -1,4 +1,4 @@
-const { DataTypes } = require("sequelize")
+const { DataTypes } = require("sequelize");
 module.exports = {
   up: async ({ context: queryInterface }) => {
     await queryInterface.createTable(
@@ -28,7 +28,7 @@ module.exports = {
       {
         timestamps: true,
       }
-    )
+    );
     await queryInterface.createTable(
       "users",
       {
@@ -49,15 +49,11 @@ module.exports = {
           type: DataTypes.TEXT,
           allowNull: false,
         },
-        passwordHash: {
-          type: DataTypes.TEXT,
-          allowNull: false,
-        },
       },
       {
         timestamps: true,
       }
-    )
+    );
 
     await queryInterface.addColumn("blogs", "user_id", {
       type: DataTypes.INTEGER,
@@ -66,10 +62,14 @@ module.exports = {
         model: "users",
         key: "id",
       },
-    })
+    });
+    await queryInterface.addColumn("users", "password_hash", {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    });
   },
   down: async ({ context: queryInterface }) => {
-    await queryInterface.dropTable("notes")
-    await queryInterface.dropTable("users")
+    await queryInterface.dropTable("notes");
+    await queryInterface.dropTable("users");
   },
-}
+};
