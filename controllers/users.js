@@ -39,12 +39,8 @@ router.put("/:username", userExtractor, async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   const user = await User.findByPk(req.params.id, {
-    attributes: { exclude: [""] },
+    attributes: [],
     include: [
-      {
-        model: Blog,
-        attributes: { exclude: ["userId"] },
-      },
       {
         model: Blog,
         as: "readingList",
